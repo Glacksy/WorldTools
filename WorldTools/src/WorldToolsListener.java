@@ -62,6 +62,7 @@ public class WorldToolsListener extends PluginListener {
 		   private static boolean DisableWeather;
 		   private static boolean DisableThunderWeather;
 		   private static boolean DisableNightTime;
+		   private static boolean AlwaysRaining;
 		   public static int rad;
 		   public static boolean rlsponge;
 		   private static String leavetypes;
@@ -227,6 +228,9 @@ public class WorldToolsListener extends PluginListener {
 		out.write("#Disable Thunder Weather"); out.newLine();
 		out.write("disable-thunder-weather=false"); out.newLine();
 		out.write(" "); out.newLine();
+		out.write("#Force rain and snow on all the time."); out.newLine();
+		out.write("always-raining=false"); out.newLine();
+		out.write(" "); out.newLine();
 		out.write("#Disable Night Time/Skip Night Time"); out.newLine();
 		out.write("disable-night-time=false"); out.newLine();
 		out.write(" "); out.newLine();
@@ -350,6 +354,7 @@ public class WorldToolsListener extends PluginListener {
            DisableWeather = Boolean.parseBoolean(properties.getProperty("disable-weather"));
            DisableThunderWeather = Boolean.parseBoolean(properties.getProperty("disable-thunder-weather"));
            DisableNightTime = Boolean.parseBoolean(properties.getProperty("disable-night-time"));
+           AlwaysRaining = Boolean.parseBoolean(properties.getProperty("always-raining"));
            
         // ExactSpawn = Boolean.parseBoolean(properties.getProperty("disable-exact-spawn"));
            
@@ -375,7 +380,7 @@ public class WorldToolsListener extends PluginListener {
 			    if (WorldToolsVoids.isInExplosionRadius(player, block)) {
 			     player.setHealth(player.getHealth() - WorldToolsVoids.calculateDamage(player, block));
 			    if (player.getHealth() < 1) {
-			        player.dropInventory();}}}
+			        player.dropInventory();}}}  //TODO: force the drop to keep enchantments
 	   return true;
 	 }
      if ((BlockGhastExplosion) && (block.getStatus() == 3)) {
@@ -474,7 +479,7 @@ public class WorldToolsListener extends PluginListener {
 	if (DisallowLavaSpreadBlocks != null && blockFrom.getType() == 10 || blockFrom.getType() == 11) {
 		int a1337 = blockFrom.getWorld().getBlockIdAt(blockTo.getX(), blockTo.getY() - 1, blockTo.getZ());
         if (!DisallowLavaSpreadBlocks.contains(a1337)) {
-            return true;  //TODO: Test this code, added multiworld used to be etc.getServer
+            return true;  //TODO: Test this code
         }
     }
 	return false;
@@ -501,7 +506,7 @@ public class WorldToolsListener extends PluginListener {
 	       int dist = 0;
 	       if (cmd.length == 2) try { dist = Integer.parseInt(cmd[1]); } catch (Throwable localThrowable) {
 	         } if (dist == 0) {
-	         Player.sendMessage("§6#######Drain Help#######");
+	         Player.sendMessage("§6#[-----Drain Help-----]#");
 	         Player.sendMessage("§a/drain <radius> - Drain water/lava");
 	         Player.sendMessage("§a/drainwater <radius> - Drain water");
 	         Player.sendMessage("§a/drainlava <radius>  - Drain lava");
@@ -1065,13 +1070,11 @@ public class WorldToolsListener extends PluginListener {
    
    /**
     * Disable Inventories
-    * NOTE: THIS DOES NOT WORK FOR PLAYER INVENTORY ONLY DISPENSER,FURNACE AND SUCH
-    * TODO: Add a ignore command(added)
     * TODO: add a inventory list you want to disable (you do it lol)
     */
    public boolean onOpenInventory(Player player,Inventory inventory){
 	   if (DisableInventories) { 
-		   if (!player.canUseCommand("/ignoreinv")){
+		   if ((!player.canUseCommand("/ignoreinv") && player.canUseCommand("/worldtools"))){
 			   if (inventory.getContentsSize() == 27){
 				   player.notify("You cant open this inventory!");
 				   return true;
@@ -1131,6 +1134,11 @@ public class WorldToolsListener extends PluginListener {
 		   etc.getServer().getDefaultWorld().setRaining(false);}
 		   return true;
 	   }
+	   if (AlwaysRaining) { 
+		   if (etc.getServer().getDefaultWorld().isRaining()){   //have to change this later, as it will only rain forever after the first natural rain
+			   etc.getServer().getDefaultWorld().setRaining(true);} //TODO:  test this
+		   return true;
+	   }
 	  return false; 
    }
    
@@ -1154,11 +1162,12 @@ public class WorldToolsListener extends PluginListener {
    public boolean onTimeChange(World world, long newValue)
    {
 	   if (DisableNightTime){
-		   etc.getServer().getDefaultWorld().setTime(6000);
+		   etc.getServer().getDefaultWorld().setTime(1);
 		   return true;
 	   }
 	  return false;
    }
+   
   
      /**
       * sponge feature code
