@@ -62,6 +62,7 @@ public class WorldToolsListener extends PluginListener {
 		   private static boolean DisableWeather;
 		   private static boolean DisableThunderWeather;
 		   private static boolean DisableNightTime;
+		   private static boolean DisableEndermanBlockPickup;
 		   private static boolean AlwaysRaining;
 		   private static boolean ClassicWater;
 		   public static int rad;
@@ -361,6 +362,7 @@ public class WorldToolsListener extends PluginListener {
            DisableNightTime = Boolean.parseBoolean(properties.getProperty("disable-night-time"));
            AlwaysRaining = Boolean.parseBoolean(properties.getProperty("always-raining"));
            ClassicWater = Boolean.parseBoolean(properties.getProperty("classic-water"));
+           DisableEndermanBlockPickup = Boolean.parseBoolean(properties.getProperty("disable-enderman-pickup"));
            
         // ExactSpawn = Boolean.parseBoolean(properties.getProperty("disable-exact-spawn"));
            
@@ -418,6 +420,19 @@ public class WorldToolsListener extends PluginListener {
 		return true;
     }
 	return false;
+   }
+   
+   /**
+    * Prevent enderman from picking up blocks
+    * TODO: make a list of blocks the enderman can pickup
+    */
+   public boolean onEndermanPickup(Enderman entity, Block block)
+   {
+    if (DisableEndermanBlockPickup)
+    {
+	   return true;
+    }
+   return false;
    }
 
    /**
@@ -858,11 +873,11 @@ public class WorldToolsListener extends PluginListener {
            if ((cmd[0].equalsIgnoreCase("/godmode")) && (Player.canUseCommand("/godmode"))) {
         	      if (!god.contains(Player.getName())) {
         	        god.add(Player.getName());
-        	        Player.sendMessage("§3Godmode have been disabled");
+        	        Player.sendMessage("§eGodmode have been disabled");
         	        return true;
         	      }else{
         	      god.remove(Player.getName());
-        	      Player.sendMessage("§3Godmode have been enabled");
+        	      Player.sendMessage("§eGodmode have been enabled");
         	      return true;
         	      }
         	    }
@@ -904,9 +919,7 @@ public class WorldToolsListener extends PluginListener {
     */
    public void onLogin(Player player) {
 	    if (god.contains(player.getName()))
-	    if (god.contains(player.getName()))
-	      god.remove(player.getName());
-	      god.remove(player.getName());
+	        god.remove(player.getName());
 	  }
    
    /**
@@ -1063,6 +1076,7 @@ public class WorldToolsListener extends PluginListener {
    /**
     * This is pointless but i prefer having the possibility.
     * Disable Cow Milking
+    * @Deprecated. Use #onEntityRightClick(Player, Entity, Item)  instead.
     */
    public boolean onCowMilk(Player player, Mob cow)
    {
