@@ -63,6 +63,7 @@ public class WorldToolsListener extends PluginListener {
 		   private static boolean DisableThunderWeather;
 		   private static boolean DisableNightTime;
 		   private static boolean AlwaysRaining;
+		   private static boolean ClassicWater;
 		   public static int rad;
 		   public static boolean rlsponge;
 		   private static String leavetypes;
@@ -251,8 +252,12 @@ public class WorldToolsListener extends PluginListener {
 		out.write("#Disallow fire spread on the set blocks.");out.newLine();
 		out.write("#Note: This Does Not Support Damagevalues Yet.");out.newLine();
 		out.write("disallowed-lava-spread-blocks=5,17,18,30,35");out.newLine();
+		out.write(" "); out.newLine();
 		out.write("#ExactSpawn"); out.newLine();
 		out.write("enable-exact-spawn=true");
+		out.write(" "); out.newLine();
+		out.write("#Use classic water"); out.newLine();
+		out.write("classic-water=false");
 		out.newLine();
 		out.close();
 		
@@ -355,6 +360,7 @@ public class WorldToolsListener extends PluginListener {
            DisableThunderWeather = Boolean.parseBoolean(properties.getProperty("disable-thunder-weather"));
            DisableNightTime = Boolean.parseBoolean(properties.getProperty("disable-night-time"));
            AlwaysRaining = Boolean.parseBoolean(properties.getProperty("always-raining"));
+           ClassicWater = Boolean.parseBoolean(properties.getProperty("classic-water"));
            
         // ExactSpawn = Boolean.parseBoolean(properties.getProperty("disable-exact-spawn"));
            
@@ -464,6 +470,8 @@ public class WorldToolsListener extends PluginListener {
     */
    public boolean onFlow(Block blockFrom, Block blockTo)
    {
+	World world = blockTo.getWorld();
+	
 	if ((DisableWaterFlow) && (blockFrom.getType() == 8 || blockFrom.getType() == 9))
    {
 		return true;
@@ -472,6 +480,13 @@ public class WorldToolsListener extends PluginListener {
    {
 		return true;
    }
+	if ((ClassicWater) && (blockFrom.getType() == 8) || (blockFrom.getType() == 9)) {
+	      int bB = world.getBlockIdAt(blockFrom.getX(), blockFrom.getY() - 1, blockFrom.getZ()); 
+	      if ((bB != 0) && (bB != 8) && (bB != 9)) { 
+	      world.setBlockAt(9, blockFrom.getX(), blockFrom.getY(), blockFrom.getZ());
+	        return false;
+	      }
+	    }
 	/**
 	 * 
 	 * TODO: damage values support
