@@ -12,21 +12,20 @@ import java.util.logging.Logger;
 
 public class WorldTools extends Plugin {
 
-	  static final WorldToolsListener listener = new WorldToolsListener();
+	  static WorldToolsListener listener = new WorldToolsListener();
+	  static PlayerTools playertools = new PlayerTools();
 	  
 	  private static Logger log = Logger.getLogger("Minecraft");
 	  private static Object logger;
 	  
 	  static String pluginName = "WorldTools";
 	  static String version = "2.0 Beta 1";
-	  static String Author = "Glacksy";
+	  static String Author = "Glacksy & Spenk";
 	  static String Updatr = "Updatr";
 	  public static String Ver = "2.0";
 	  
 	  private final static String Dir = "plugins/config/WorldTools/"; 
 	  private final static String Set = "WorldTools.properties";
-	  
-	//  private static final int SPAWN_RADIUS = 12;
 	  
 	  private static Location exactSpawn = null;
 	  private static PropertiesFile Settings;
@@ -39,8 +38,10 @@ public void enable()
 {
 	log.info(pluginName + " " + version + " by " + Author + " Enabled");
 	if(Listener.isLatest()){
-	log.info("There is an update available for WorldTools ");}
-    Listener.LoadAll();
+	log.info("[WorldTools] - There is an update available!");}
+	
+	listener.createfile();
+	log.info("[WorldTools] - Files Created & Loaded!");
 }
 
 public void disable()
@@ -52,6 +53,12 @@ public void disable()
 public void initialize()
 {
   PluginLoader loader = etc.getLoader();
+  loader.addListener(PluginLoader.Hook.COMMAND, playertools, this, PluginListener.Priority.MEDIUM);
+  loader.addListener(PluginLoader.Hook.PLAYER_CONNECT, playertools, this, PluginListener.Priority.MEDIUM);
+  loader.addListener(PluginLoader.Hook.PLAYER_DISCONNECT, playertools, this, PluginListener.Priority.MEDIUM);
+  loader.addListener(PluginLoader.Hook.DAMAGE, playertools, this, PluginListener.Priority.MEDIUM);
+  loader.addListener(PluginLoader.Hook.PLAYER_MOVE, playertools, this, PluginListener.Priority.MEDIUM);
+  
   loader.addListener(PluginLoader.Hook.COMMAND, listener, this, PluginListener.Priority.MEDIUM);
   loader.addListener(PluginLoader.Hook.EXPLODE, listener, this, PluginListener.Priority.CRITICAL);
   loader.addListener(PluginLoader.Hook.ITEM_USE, listener, this, PluginListener.Priority.MEDIUM);
@@ -82,6 +89,10 @@ public void initialize()
   loader.addListener(PluginLoader.Hook.TIME_CHANGE, listener, this, PluginListener.Priority.MEDIUM);
   loader.addListener(PluginLoader.Hook.OPEN_INVENTORY, listener, this, PluginListener.Priority.CRITICAL);
   loader.addListener(PluginLoader.Hook.PLAYER_MOVE, listener, this, PluginListener.Priority.MEDIUM);
+  loader.addListener(PluginLoader.Hook.TAME, listener, this, PluginListener.Priority.MEDIUM);
+  loader.addListener(PluginLoader.Hook.CHUNK_UNLOAD, listener, this, PluginListener.Priority.MEDIUM);
+  loader.addListener(PluginLoader.Hook.SIGN_CHANGE, listener, this, PluginListener.Priority.MEDIUM);
+  loader.addListener(PluginLoader.Hook.BLOCK_BROKEN, listener, this, PluginListener.Priority.MEDIUM);
   
   Plugin loaded = etc.getLoader().getPlugin("Updatr");
   if (loaded != null) {
@@ -139,7 +150,7 @@ public static class Listener extends PluginListener {
  /**
   * Check if your running latest version
   * @author darkdiplomat
-  * @return
+  * 
   */
     public static boolean isLatest(){
 	String address = "http://www.topica-rp.com/Download/version.html";
@@ -165,32 +176,8 @@ public static class Listener extends PluginListener {
 		return true;
 	}
 	return (version.equals(Ver));
-} 
-}
+  } 
+ }
 }
 
-/* public class radiuss extends PluginListener{
-        public boolean onCommand(Player player,String[] split){
-                if (split[0].equalsIgnoreCase("/wReplace")){
-                        if (split.length <4 || split.length >4){
-                                player.notify("§cThe correct usage is '/wreplace fromid toid radius'");
-                                return true;
-                        }
-                    try 
-                        {
-                        Integer.parseInt(split[1]); Integer.parseInt(split[2]);Integer.parseInt(split[3]);}catch(NumberFormatException nfe){player.notify("§cThe correct usage is '/wreplace fromid toid radius'"); return true;}
-                        int fromid = Integer.parseInt(split[1]);
-                        int toid = Integer.parseInt(split[2]);
-                        int radius = Integer.parseInt(split[3]);
-                        replace(player,fromid,toid,radius);
-                        
-                        player.sendMessage("§aBlocks Replaced.");
-                        return true;
-                }
-                return false;
-        }
-        
-
-        
-*/
 

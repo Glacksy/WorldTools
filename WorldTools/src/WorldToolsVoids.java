@@ -1,4 +1,3 @@
-
 public class WorldToolsVoids extends WorldToolsListener {
 
 	static Player player;
@@ -25,6 +24,12 @@ public class WorldToolsVoids extends WorldToolsListener {
    	  etc.getInstance().addCommand("/drainwater <radius>", "Drain water in a custom radius");
    	  etc.getInstance().addCommand("/drainlava <radius>", "Drain lava in a custom radius");
       etc.getInstance().addCommand("/save-inv", "Save all inventories!");
+      etc.getInstance().addCommand("/freeze <player>", "Freeze a player.");
+      etc.getInstance().addCommand("/switchworld <world>", "Switch to another world!");
+      etc.getInstance().addCommand("/forcewarp <player> <warp>", "Force a player to a warp location!");
+      etc.getInstance().addCommand("/getip <player>", "Get the ip of a player.");
+      etc.getInstance().addCommand("/feed <player>", "Feed another player!");
+      etc.getInstance().addCommand("/lighter", "Give yourself a lighter!");
     }
     
     /**
@@ -48,6 +53,13 @@ public class WorldToolsVoids extends WorldToolsListener {
    		etc.getInstance().removeCommand("/heal");
    		etc.getInstance().removeCommand("/save-inv");
    		etc.getInstance().removeCommand("/cmob <radius>");
+   		etc.getInstance().removeCommand("/switchworld <world>");
+   		etc.getInstance().removeCommand("/forcewarp <player> <warp>");
+   		etc.getInstance().removeCommand("/getip <player>");
+   		etc.getInstance().removeCommand("/feed <player>");
+   		etc.getInstance().removeCommand("/freeze <player>");
+   		etc.getInstance().removeCommand("/save-inv");
+   		etc.getInstance().removeCommand("/lighter");
    		
     }
     
@@ -328,5 +340,8 @@ public class WorldToolsVoids extends WorldToolsListener {
 	          }
 	        }
 	     
-	     
-}
+	     public static void savechunk(String coords1,String coords2){
+	    	 PropertiesFile f = new PropertiesFile("plugins/config/WorldTools/WorldToolsChunks.properties");
+	    	 f.getString(coords1,coords2);
+	    	 }
+	     }
