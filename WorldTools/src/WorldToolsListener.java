@@ -68,6 +68,9 @@ public class WorldToolsListener extends PluginListener {
 		   private static boolean AlwaysRaining;
 		   private static boolean Instandtame;
 		   private static boolean ClassicWater;
+		   private static boolean TpHomeOnDeath;
+		   private static boolean DisablePigZombificatio;
+		   
 		   public static int rad;
 		   public static boolean rlsponge;
 		   private static String leavetypes;
@@ -277,11 +280,14 @@ public class WorldToolsListener extends PluginListener {
 		out.write("#Prevent enderman from picking up blocks"); out.newLine();
 		out.write("disable-enderman-pickup=false");out.newLine();
 		out.newLine();
-		out.write("#Prevent Wolfes from being tamed"); out.newLine();
-		out.write("Prevent-Wolf-Tame=false");out.newLine();
+		out.write("#Prevent Wolfs from being tamed"); out.newLine();
+		out.write("prevent-wolf-tame=false");out.newLine();
 		out.newLine();
-		out.write("#Instand Tame wolfes"); out.newLine();
-		out.write("Instand-Tame=false");out.newLine();
+		out.write("#Instand Tame wolfs"); out.newLine();
+		out.write("instand-tame=false");out.newLine();
+		out.newLine();
+		out.write("#Prevent lightning from turning a pig in to a pigzombie!"); out.newLine();
+		out.write("disable-pig-zombification=false");out.newLine();
 		out.newLine();
 		out.write("#Teleport an player to the nether/end when he reaches a certain level"); out.newLine();
 		out.write("Teleport-Player-OnReachLayer=false");out.newLine();
@@ -400,9 +406,9 @@ public class WorldToolsListener extends PluginListener {
            ClassicWater = Boolean.parseBoolean(properties.getProperty("classic-water"));
            DisableEndermanBlockPickup = Boolean.parseBoolean(properties.getProperty("disable-enderman-pickup"));     
            DisableDayTime = Boolean.parseBoolean(properties.getProperty("disable-day-time"));
-           DisableWolfTame = Boolean.parseBoolean(properties.getProperty("Prevent-Wolf-Tame"));
-           Instandtame = Boolean.parseBoolean(properties.getProperty("Instant-Tame"));
-           
+           DisableWolfTame = Boolean.parseBoolean(properties.getProperty("prevent-wolf-tame"));
+           Instandtame = Boolean.parseBoolean(properties.getProperty("instant-tame"));
+           DisablePigZombificatio = Boolean.parseBoolean(properties.getProperty("disable-pig-zombification"));
            teleporttootherworld = Boolean.parseBoolean(properties.getProperty("Teleport-Player-OnReachLayer"));
            world = properties.getProperty("World-To-Teleport-Player-To");
            try{level = Integer.parseInt(properties.getProperty("Y-Level"));}catch(NumberFormatException nfe){log.info("[WorldTools] - The Y-Level must be an number!"); level = -1;}
@@ -712,6 +718,12 @@ public class WorldToolsListener extends PluginListener {
 	   if (DisableLightningStrike) {
 		   return true;
 	   }
+	   
+	   if ((DisablePigZombificatio) && (entity.isAnimal())) {
+		   entity.destroy(); //destory the entity, should only destory pig but couldnt figure out how :o
+		   return true;
+	   }
+	   
 	  return false; 
    }
    
@@ -724,19 +736,19 @@ public class WorldToolsListener extends PluginListener {
 	   if (DisableInventories) { 
 		   if (!player.canUseCommand("/ignoreinv") && !player.canUseCommand("/worldtools")){
 			   if (inventory.getContentsSize() == 27){
-				   player.notify("You cant open this inventory!");
+				   player.sendMessage("§cYou cant open this inventory!");
 				   return true;
 			   }
 			   if (inventory.getContentsSize() == 1){
-				   player.notify("You cant open this inventory!");
+				   player.sendMessage("§cYou can't open this inventory!");
 				   return true;
 			   }
 			   if (inventory.getContentsSize() == 3){
-				   player.notify("You cant open this inventory!");
+				   player.sendMessage("§cYou can't open this inventory!");
 				   return true;
 			   }
 			   if (inventory.getContentsSize() == 54){
-				   player.notify("You cant open this inventory!");
+				   player.sendMessage("§cYou can't open this inventory!");
 				   return true;
 			   }
 		   }
@@ -744,6 +756,7 @@ public class WorldToolsListener extends PluginListener {
 	   }
 	  return false; 
    }
+   
    
    /**
     * Disable item pickup
@@ -898,13 +911,22 @@ public void onPlayerMove(Player player,Location from,Location to){
 	}
 }
 public boolean onHealthChange(Player player,int oldValue,int newValue){
+	
+	if ((TpHomeOnDeath) || (oldValue <= 0) || (newValue == 20)) {
+        Warp loc = etc.getDataSource().getHome(player.getName());
+        if (loc != null) {
+          player.teleportTo(loc.Location);
+        }
+        return true;
+   }
+	
 	if (newValue < 1){
 		if (kickondeath){
 			if (!player.canUseCommand("/worldtools")){
 			reason = reason.replace("&", "§");
 		player.kick(reason);	
 		}	
-		}
+	  }
 	}
 	return false;
 }
