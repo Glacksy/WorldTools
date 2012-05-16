@@ -265,16 +265,16 @@ public class WorldToolsListener extends PluginListener {
 		out.write("#Disable Day Time/Skip Day Time");out.newLine();
 		out.write("disable-day-time=false");out.newLine();
 		out.write(" "); out.newLine();
-		out.write("#Sponge radius");out.newLine();
-		out.write("sponge-radius=2");out.newLine();
-		out.write(" "); out.newLine();
-		out.write("#Realistic Sponge");out.newLine();
+		out.write("#Restore the functionality of sponges to remove water");out.newLine();
+		out.write("#when placed and rightclicked");out.newLine();
+		out.write("#Permissions: /useSponge, /canPlaceSponge, /canDestroySponge");out.newLine();
 		out.write("use-sponge=false");out.newLine();
+		out.write("sponge-radius=2");out.newLine();
         out.write(" "); out.newLine();
 		out.write("#ExactSpawn"); out.newLine();
 		out.write("enable-exact-spawn=true");
         out.write(" "); out.newLine();
-		out.write("#Use classic water"); out.newLine();
+		out.write("#Classic water simulation"); out.newLine();
 		out.write("classic-water=false");
         out.write(" "); out.newLine();
 		out.write("#Prevent enderman from picking up blocks"); out.newLine();
@@ -843,7 +843,7 @@ public class WorldToolsListener extends PluginListener {
       * @author spenk
       */
 public boolean onBlockCreate(Player player,Block block,Block blockClicked,int itemInHand){
-	if (player.canUseCommand("/worldtools")){
+	if (player.canUseCommand("/worldtools") || player.canUseCommand("/canPlaceSponge")){
 		if (block != null){
 		int type = block.getType();
 	if (type == 19){
@@ -859,7 +859,7 @@ public boolean onBlockCreate(Player player,Block block,Block blockClicked,int it
 }
 
 public boolean onBlockDestroy(Player player,Block block){
-	if (block.getType() == 19 && player.canUseCommand("/worldtools")){
+	if (block.getType() == 19 || player.canUseCommand("/worldtools") || player.canUseCommand("/canBreakSponge")){
 		if (rlsponge == false){
 			WorldToolsVoids.replacewater(block,rad);
 		return false;
@@ -869,7 +869,7 @@ public boolean onBlockDestroy(Player player,Block block){
 }
 
 public boolean onBlockRightClick(Player player,Block block,Item itemInHand){
-	if (block.getType() == 19 && player.canUseCommand("/worldtools")){
+	if (block.getType() == 19 || player.canUseCommand("/worldtools") || player.canUseCommand("/useSponge")){
 		if (rlsponge){
 			if(WorldToolsVoids.iswater(block, rad)){
 				WorldToolsVoids.airout(block,rad);
@@ -986,7 +986,7 @@ public boolean onBlockBreak(Player player,Block block){
 			player.sendMessage("§4Sign sucsessfully destroyed!");
 			return false;
 		}
-			player.notify("You cant break this sign block!");
+			player.notify("§cYou cant break this sign block!");
 			return true;
 		}
 	}
