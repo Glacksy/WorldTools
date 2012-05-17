@@ -19,7 +19,7 @@ public class WorldTools extends Plugin {
 	  private static Object logger;
 	  
 	  static String pluginName = "WorldTools";
-	  static String version = "2.0 Beta 1";
+	  static String version = "2.0";
 	  static String Author = "Glacksy & Spenk";
 	  static String Updatr = "Updatr";
 	  public static String Ver = "2.0";
@@ -123,6 +123,10 @@ public static class Listener extends PluginListener {
     // Return pluginName
     public static String pluginName() { 
     	return pluginName;
+    }
+    // Return pluginName
+    public static String Version() { 
+    	return version;
     }
     // Return Updatr logger
     public static Object logger() { 

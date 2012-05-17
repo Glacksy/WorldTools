@@ -986,7 +986,7 @@ public boolean onBlockBreak(Player player,Block block){
 			player.sendMessage("§4Sign sucsessfully destroyed!");
 			return false;
 		}
-			player.notify("§cYou cant break this sign block!");
+			player.notify("You cant break this sign block!");
 			return true;
 		}
 	}

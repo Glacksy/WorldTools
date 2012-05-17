@@ -267,7 +267,7 @@ public class PlayerTools extends PluginListener{
 		      */ 
 		     if (split[0].equalsIgnoreCase("/wreplace") && (Player.canUseCommand("/wreplace") || (Player.canUseCommand("/worldtools")))) {
 		         if (split.length <4 || split.length >4){
-		                 Player.notify("§cThe correct usage is '/wreplace fromid toid radius'");
+		                 Player.notify("The correct usage is '/wreplace fromid toid radius'");
 		                 return true;
 		         } 
 		         Integer.parseInt(split[1]); Integer.parseInt(split[2]);Integer.parseInt(split[3]);
@@ -284,7 +284,7 @@ public class PlayerTools extends PluginListener{
 		 }
 		     
 		     if ((split[0].equalsIgnoreCase("/worldtools")) && (Player.canUseCommand("/worldtools"))) {
-		           Player.sendMessage("§6 WorldTools 2.0 Beta1 by Glacksy §8&§6 Spenk");
+		           Player.sendMessage("§6 WorldTools 2.0 by Glacksy §8&§6 Spenk");
 		      
 		           return true;
 		         }
