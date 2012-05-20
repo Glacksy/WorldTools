@@ -1,7 +1,9 @@
-public class WorldToolsVoids extends WorldToolsListener {
+public class WorldToolsVoids extends PluginListener {
 
 	static Player player;
-	
+	private static Location exactSpawn = null;
+	private static PropertiesFile properties;
+	private static boolean ExactSpawn;
 	
 	/**
      * Enable/add help commands onDisable
@@ -63,6 +65,69 @@ public class WorldToolsVoids extends WorldToolsListener {
    		
     }
     
+    
+    /**
+	 * Disable ExactSpawn feature
+	 * This load onDisable to disable it
+	 */
+    
+    public static void DisableExactSpawn() {
+		exactSpawn = null;
+	}
+    
+    
+    
+    public void onLogin(Player player)
+    {
+      Location spawn = null;
+      if (exactSpawn != null)
+        spawn = exactSpawn;
+      else {
+        spawn = etc.getServer().getWorld(0).getSpawnLocation();
+      }
+
+      if ((Math.abs(player.getX() - spawn.x) <= 12.0D) && (Math.abs(player.getZ() - spawn.z) <= 12.0D))
+        player.teleportTo(spawn);
+    }
+    
+    public boolean onHealthChange(Player player, int oldValue, int newValue) {
+        Location spawn = null;
+        if (exactSpawn != null)
+          spawn = exactSpawn;
+        else {
+          spawn = etc.getServer().getWorld(0).getSpawnLocation();
+        }
+
+        if ((oldValue <= 0) && (newValue == 20) && 
+          (Math.abs(player.getX() - spawn.x) <= 12.0D) && (Math.abs(player.getZ() - spawn.z) <= 12.0D)) {
+          player.teleportTo(spawn);
+        }
+
+        return false;
+      }
+    
+    
+    /**
+	 * Load and enable ExactSpawn feature
+	 * This load onEnable
+	 */
+	public static void EnableExactSpawn() {
+		
+		properties = new PropertiesFile(WorldTools.Listener.getDirSet());
+		   ExactSpawn = Boolean.parseBoolean(properties.getProperty("enable-exact-spawn"));
+		PropertiesFile props = new PropertiesFile(WorldTools.Listener.getDirSet());
+		  if ((ExactSpawn) && (props.keyExists("exact-spawn"))) {
+		    String[] data = props.getString("exact-spawn").split(",");
+		    exactSpawn = new Location();
+		    exactSpawn.x = Double.parseDouble(data[0]);
+		    exactSpawn.y = Double.parseDouble(data[1]);
+		    exactSpawn.z = Double.parseDouble(data[2]);
+		    exactSpawn.rotX = Float.parseFloat(data[3]);
+		    exactSpawn.rotY = Float.parseFloat(data[4]);
+		  }
+	}
+	
+	
     
 	/**
 	 * Changed it to use the new and powerful code, so only players will be hurt while world wont!

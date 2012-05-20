@@ -15,6 +15,8 @@ public class PlayerTools extends PluginListener{
 	ArrayList<String> god = new ArrayList<String>();
 	ArrayList<String> frozen = new ArrayList<String>();
 	
+	private static Location exactSpawn = null;
+	
 	public boolean onCommand(Player Player, String[] split) {
 			   if ((split[0].equalsIgnoreCase("/drain")) && (Player.canUseCommand("/worldtools"))) {
 			       int dist = 0;
@@ -284,7 +286,7 @@ public class PlayerTools extends PluginListener{
 		 }
 		     
 		     if ((split[0].equalsIgnoreCase("/worldtools")) && (Player.canUseCommand("/worldtools"))) {
-		           Player.sendMessage("§6 WorldTools 2.0 by Glacksy §8&§6 Spenk");
+		           Player.sendMessage("§6 WorldTools " + WorldTools.version + " by Glacksy §8&§6 Spenk");
 		      
 		           return true;
 		         }
@@ -447,6 +449,16 @@ public class PlayerTools extends PluginListener{
 		             Player.sendMessage("§cPlayer not found!");
 		             return true;
 		           }
+		           
+		           if ((split[0].equalsIgnoreCase("/setspawn")) && (Player.canUseCommand("/setspawn"))) {
+		               exactSpawn = new Location(Player.getX(), Player.getY(), Player.getZ(), Player.getRotation(), Player.getPitch());
+		               PropertiesFile props = new PropertiesFile("worldtools.properties");
+		               props.setString("exact-spawn", exactSpawn.x + "," + exactSpawn.y + "," + exactSpawn.z + "," + exactSpawn.rotX + "," + exactSpawn.rotY);
+		               return false;
+		             }if ((split[0].equalsIgnoreCase("/spawn")) && (Player.canUseCommand("/spawn")) && (exactSpawn != null)) {
+		               Player.teleportTo(exactSpawn);
+		               return true;
+		             }
 		           
 		     return false;
 		   }

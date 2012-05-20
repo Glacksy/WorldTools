@@ -21,24 +21,27 @@ public class MySQLConnector extends PluginListener
 public static void loadSettings()
   {
     
-    if (!new File("Example.properties").exists()) {
+    if (!new File("/plugins/config/WorldTools/MySQL.properties").exists()) {
       FileWriter writer = null;
       try {
-        writer = new FileWriter("Example.properties");
-        writer.write("useHMsql=true\r\n");
+        writer = new FileWriter("/plugins/config/WorldTools/MySQL.properties");
+        writer.write("############################");
+        writer.write("# THIS IS CURRENTLY UNUSED #");
+        writer.write("############################");
+        writer.write("useCanarySQL=true\r\n");
         writer.write("SQLdriver=com.mysql.jdbc.Driver\r\n");
         writer.write("SQLuser=root\r\n");
         writer.write("SQLpass=root\r\n");
         writer.write("SQLdb=jdbc:mysql://localhost:3306/minecraft\r\n");
       } catch (Exception e) {
         log.log(Level.SEVERE, 
-          "Exception while creating Example.properties", e);
+          "Exception while creating the properties file", e);
         try {
           if (writer != null)
             writer.close();
         } catch (IOException ex) {
           log.log(Level.SEVERE, 
-            "Exception while closing writer for MySQL.properties", 
+            "Exception while closing writer for the mysql properties", 
             ex);
         }
         try
@@ -47,7 +50,7 @@ public static void loadSettings()
             writer.close();
         } catch (IOException ex) {
           log.log(Level.SEVERE, 
-            "Exception while closing writer for MySQL.properties", 
+            "Exception while closing writer for the mysql properties", 
             e);
         }
       }
@@ -59,12 +62,12 @@ public static void loadSettings()
             writer.close();
         } catch (IOException e) {
           log.log(Level.SEVERE, 
-            "Exception while closing writer for MySQL.properties", 
+            "Exception while closing writer for the mysql properties", 
             e);
         }
       }
     }
-    PropertiesFile properties = new PropertiesFile("MySQL.properties");
+    PropertiesFile properties = new PropertiesFile("/plugins/config/WorldTools/MySQL.properties");
     try {
       SQLdriver = properties.getString("SQLdriver", 
         "com.mysql.jdbc.Driver");
@@ -76,7 +79,7 @@ public static void loadSettings()
     }
     catch (Exception e) {
       log.log(Level.SEVERE, 
-        "Exception while reading from MySQL.properties", e);
+        "Exception while reading from the mysql properties", e);
     }
   }
 }

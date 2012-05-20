@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public class WorldToolsListener extends PluginListener {
 	
 	private static Logger log = Logger.getLogger("Minecraft");
-
+	
 	   /**
 		 * Disable and Enable different features in properties file
 		 * This part is used to "wire" prop file and features

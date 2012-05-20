@@ -141,13 +141,13 @@ public static class Listener extends PluginListener {
     }
     public static void LoadAll() {
     	updatr.createUpdatrFile();
-    	exactspawn.EnableExactSpawn();
+    	WorldToolsVoids.EnableExactSpawn();
     	listener.createfile();
     	WorldToolsVoids.EnableHelp();
     }
     public static void UnLoadAll() {
     	WorldToolsVoids.EnableHelp();
-    	exactspawn.DisableExactSpawn();
+    	WorldToolsVoids.DisableExactSpawn();
     }
     
     
