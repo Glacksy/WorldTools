@@ -19,10 +19,10 @@ public class WorldTools extends Plugin {
 	  private static Object logger;
 	  
 	  static String pluginName = "WorldTools";
-	  static String version = "2.0";
+	  static String version = "2.1";
 	  static String Author = "Glacksy & Spenk";
 	  static String Updatr = "Updatr";
-	  public static String Ver = "2.0";
+	  public static String TVer = "2.0";
 	  
 	  private final static String Dir = "plugins/config/WorldTools/"; 
 	  private final static String Set = "WorldTools.properties";
@@ -172,14 +172,14 @@ public static class Listener extends PluginListener {
 		while ((inputLine = in.readLine()) != null) {
 			if (inputLine.contains("WorldTools=")){
 				Vpre = inputLine.split("=");
-				Ver = Vpre[1].replace("</p>", "");
+				TVer = Vpre[1].replace("</p>", "");
 			}
 		}
 		in.close();
 	} catch (IOException e) {
 		return true;
 	}
-	return (version.equals(Ver));
+	return (version.equals(TVer));
   } 
  }
 }
