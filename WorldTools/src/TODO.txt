@@ -1,0 +1,24 @@
+
+TODO LIST:
+
+everything should have a prop in the file 
+- classic water  (done i think)
+- disable health regain
+- Prevent dirt from turning in to grass (spreading)
+- Prevent mushrooms from spreading  (one for red and one for brown)
+- Prevent mobs from destroying crops (only mobs)
+- Prevent water from destroying redwire
+- Prevent water from destroying torches (one for normal and one for red ;))
+
+
+also we should add:
+
+prevent-lightning-strike-blocks=
+prevent-waterspread-blocks=      (blocks water shouldnt "flow" to/on)
+prevent-lavaspread-blocks=       (blocks lava shouldnt "flow" or spread to/on)
+prevent-firespread-blocks=       
+disable-xp-orb-drops=            (possible in server.prop but still changeable by  ect.getServer i think)
+
+anti-wolf-dumbness=
+the last one will give wolf some sort of godmode, so they cant die by lava,fire,cactus and explosion, nothing else!
+also the wolf HAVE to be tamed or this wont work.

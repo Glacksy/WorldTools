@@ -25,9 +25,9 @@ public class updatr extends WorldTools {
 
 		        BufferedWriter writer = new BufferedWriter(new FileWriter(updatrFile));
 		        writer.write("name = WorldTools"); writer.newLine();
-		        writer.write("version = 2.0"); writer.newLine();
-		        writer.write("url = topica-rp.com/Download/Plugin_mc/glacksy/WorldTool.updatr"); writer.newLine();
-		        writer.write("file = topica-rp.com/Download/Plugin_mc/glacksy/WorldTool.jar"); writer.newLine();
+		        writer.write("version = 2.2"); writer.newLine();
+		        writer.write("url = dl.dropbox.com/s/mtrt3xgumok6lud/WorldTools.updatr"); writer.newLine();
+		        writer.write("file = dl.dropbox.com/s/aqvi05eaziuh4z6/WorldTools.jar"); writer.newLine();
 		        writer.write("notes = "); writer.newLine();
 		        writer.close();
 		      }
