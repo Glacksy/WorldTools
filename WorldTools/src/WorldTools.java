@@ -19,10 +19,10 @@ public class WorldTools extends Plugin {
 	  private static Object logger;
 	  
 	  static String pluginName = "WorldTools";
-	  static String version = "2.1";
+	  static String version = "2.2";
 	  static String Author = "Glacksy & Spenk";
 	  static String Updatr = "Updatr";
-	  public static String TVer = "2.0";
+	  public static String TVer = "2.2";
 	  
 	  private final static String Dir = "plugins/config/WorldTools/"; 
 	  private final static String Set = "WorldTools.properties";
@@ -185,3 +185,4 @@ public static class Listener extends PluginListener {
 }
 
 
+//end of class

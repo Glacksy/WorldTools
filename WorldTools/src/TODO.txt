@@ -1,7 +1,6 @@
 
 TODO LIST:
 
-everything should have a prop in the file 
 - classic water  (done i think)
 - disable health regain
 - Prevent dirt from turning in to grass (spreading)
@@ -22,3 +21,6 @@ disable-xp-orb-drops=            (possible in server.prop but still changeable b
 anti-wolf-dumbness=
 the last one will give wolf some sort of godmode, so they cant die by lava,fire,cactus and explosion, nothing else!
 also the wolf HAVE to be tamed or this wont work.
+
+- add  /locate <player> , this will return world, dimension, coords
+- add /stoplag  ,  this will kill all mobs, kill all items in all dimensions and worlds. will also disable redstone changes so "lagg machines wont work"
