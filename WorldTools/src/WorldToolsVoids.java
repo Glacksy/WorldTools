@@ -1,3 +1,21 @@
+/*
+ * WorldTools
+ * Copyright (C) 2012
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 public class WorldToolsVoids extends PluginListener {
 
 	static Player player;
@@ -83,7 +101,7 @@ public class WorldToolsVoids extends PluginListener {
       if (exactSpawn != null)
         spawn = exactSpawn;
       else {
-        spawn = etc.getServer().getWorld(0).getSpawnLocation();
+        spawn = player.getWorld().getSpawnLocation();
       }
 
       if ((Math.abs(player.getX() - spawn.x) <= 12.0D) && (Math.abs(player.getZ() - spawn.z) <= 12.0D))
@@ -95,7 +113,7 @@ public class WorldToolsVoids extends PluginListener {
         if (exactSpawn != null)
           spawn = exactSpawn;
         else {
-          spawn = etc.getServer().getWorld(0).getSpawnLocation();
+          spawn = player.getWorld().getSpawnLocation();
         }
 
         if ((oldValue <= 0) && (newValue == 20) && 
@@ -132,6 +150,9 @@ public class WorldToolsVoids extends PluginListener {
 	/**
 	 * Changed it to use the new and powerful code, so only players will be hurt while world wont!
 	 * @author benni1601
+	 *
+	 * @param a
+	 * @return
 	 */
 	public static int getArmour(Player a) {
 		int armour = 0;
@@ -276,6 +297,11 @@ public class WorldToolsVoids extends PluginListener {
 			}
 		}
 	  }
+	/**
+	 *
+	 * @param b
+	 * @param radius
+	 */
 	public static void fillarea(Block b, int radius){
 		int xmin = (int)b.getX()-radius;
 		int xmax = (int)b.getX()+radius;
@@ -291,6 +317,11 @@ public class WorldToolsVoids extends PluginListener {
 			}
 		}
 	  }
+	/**
+	 * 
+	 * @param b
+	 * @param radius
+	 */
 	public static void replacewater(Block b, int radius){
 		int radi = radius+1;
 		int xmin = (int)b.getX()-radi;
@@ -307,6 +338,11 @@ public class WorldToolsVoids extends PluginListener {
 			}
 		}
 	  }
+	/**
+	 * @param b
+	 * @param radius
+	 * @return
+	 */
 	public static boolean isinarea(Block b,int radius){
 		int radi = radius+1;
 		int xmin = (int)b.getX()-radi;
@@ -324,7 +360,12 @@ public class WorldToolsVoids extends PluginListener {
 		}
 		return false;
 	}
-
+/**
+ * 
+ * @param b
+ * @param radius
+ * @return
+ */
 	public boolean isinarea2(Block b,int radius){
 		int radi = radius;
 		int xmin = (int)b.getX()-radi;
@@ -342,6 +383,12 @@ public class WorldToolsVoids extends PluginListener {
 		}
 		return false;
 	}
+	/**
+	 * 
+	 * @param b
+	 * @param radius
+	 * @return
+	 */
 		public static boolean iswater(Block b, int radius){
 			int xmin = (int)b.getX()-radius;
 			int xmax = (int)b.getX()+radius;
@@ -359,11 +406,16 @@ public class WorldToolsVoids extends PluginListener {
 		return false;
 	  }
 		
-		/**
-	      * 
-	      * Setup replace feature and radius
-	      * @author Spenk
-	      */
+	    /**
+	     * 
+	     * Setup replace feature and radius
+	     * @author Spenk
+	     *
+		 * @param player
+		 * @param from
+		 * @param to
+		 * @param radius
+		 */
 	     public static void replace(Player player, int from, int to, int radius){
 	         int xmin = (int)player.getX()-radius;
 	         int xmax = (int)player.getX()+radius;
@@ -389,24 +441,30 @@ public class WorldToolsVoids extends PluginListener {
 	      */
 	     public static void cMob(int r)
 	     {
-	       int dimension = player.getLocation().dimension;
+	       World world = player.getWorld();
 	       for (int x = -r; x <= r; x++)
 	         for (int z = -r; z <= r; z++)
 	           for (int y = -r; y <= r; y++) {
-	             Block check = player.getWorld().getBlockAt((int)player.getX() + x, (int)player.getY() + y, (int)player.getZ() + z);
-	             for (Mob m : etc.getServer().getWorld(dimension).getMobList()) {
+	             Block check = world.getBlockAt((int)player.getX() + x, (int)player.getY() + y, (int)player.getZ() + z);
+	             for (Mob m : world.getMobList()) {
 	               if (((int)m.getX() == check.getX()) && ((int)m.getY() == check.getY()) && ((int)m.getZ() == check.getZ())) {
 	                 m.setHealth(0);
 	               }
 	             }
-	             for (Mob m : etc.getServer().getWorld(dimension).getAnimalList())
+	             for (Mob m : world.getMobList())
 	               if (((int)m.getX() == check.getX()) && ((int)m.getY() == check.getY()) && ((int)m.getZ() == check.getZ()))
 	                 m.setHealth(0);
 	          }
 	        }
-	     
+	     /**
+	      * @param coords1
+	      * @param coords2
+	      */
 	     public static void savechunk(String coords1,String coords2){
 	    	 PropertiesFile f = new PropertiesFile("plugins/config/WorldTools/WorldToolsChunks.properties");
 	    	 f.getString(coords1,coords2);
 	    	 }
+	     
+	     
 	     }
+//end of class

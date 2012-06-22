@@ -1,4 +1,23 @@
+/*
+ * WorldTools
+ * Copyright (C) 2012
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 /**
+
  * @Author Glacksy & Spenk
  * @category World
  * @Version 2.0
@@ -6,6 +25,7 @@
  * @Description
  * tools for World
  */
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -17,7 +37,6 @@ import java.util.logging.Logger;
 public class WorldToolsListener extends PluginListener {
 	
 	private static Logger log = Logger.getLogger("Minecraft");
-	
 	   /**
 		 * Disable and Enable different features in properties file
 		 * This part is used to "wire" prop file and features
@@ -70,6 +89,7 @@ public class WorldToolsListener extends PluginListener {
 		   private static boolean ClassicWater;
 		   private static boolean TpHomeOnDeath;
 		   private static boolean DisablePigZombificatio;
+		   private static boolean AntiWolfDumbness;
 		   
 		   public static int rad;
 		   public static boolean rlsponge;
@@ -250,6 +270,9 @@ public class WorldToolsListener extends PluginListener {
 		out.write("#Disable Item Dropping"); out.newLine();
 		out.write("disable-item-dropping=false"); out.newLine();
 		out.write(" "); out.newLine();
+		out.write("#Anti Wolf and ocelot dumbness."); out.newLine();
+		out.write("anti-tameable-animal-dumbness=false"); out.newLine();
+		out.write(" "); out.newLine();
 		out.write("#Disable weather"); out.newLine();
 		out.write("disable-weather=false"); out.newLine();
 		out.write(" "); out.newLine();
@@ -386,6 +409,7 @@ public class WorldToolsListener extends PluginListener {
 	    //   DisallowWaterSpreadBlocks = toBlockIDSet(properties.getProperty("disallowed-water-spread-blocks"));
            
 	       // Other Random Stuff
+		   AntiWolfDumbness = Boolean.parseBoolean(properties.getProperty("anti-tameable-animal-dumbness"));
            DisablePhysicsGravel = Boolean.parseBoolean(properties.getProperty("disable-gravel-physics"));
            DisablePhysicsSand = Boolean.parseBoolean(properties.getProperty("disable-sand-physics"));
            BlockLeafDecay = Boolean.parseBoolean(properties.getProperty("disable-leaf-decay"));
@@ -566,7 +590,7 @@ public class WorldToolsListener extends PluginListener {
     * List of damage types which can be disabled
     */
    public boolean onDamage(PluginLoader.DamageType type, BaseEntity attacker, BaseEntity defender, int amount)
-   {//hehehe
+   {
      if (defender.isPlayer()) {
        defender.getPlayer();
 
@@ -606,6 +630,52 @@ public class WorldToolsListener extends PluginListener {
        if ((DisablePotionDamage) && (type == PluginLoader.DamageType.POTION)) {
            return true;
         }
+     }
+       if (defender.isMob()) {
+         defender.isAnimal();
+         
+         for (LivingEntity le : defender.getWorld().getLivingEntityList()) {
+          OEntity oe = le.getEntity();
+         if (oe instanceof OEntityWolf) {
+          // Check if the wolf is tamed or not. //TODO: finish this 
+          if (((OEntityWolf)oe).u_()) {
+    	  
+           if ((AntiWolfDumbness) && (type == PluginLoader.DamageType.FALL)) {
+             return true;
+           }
+           if ((AntiWolfDumbness) && (type == PluginLoader.DamageType.LAVA)) {
+             return true;
+           }
+           if ((AntiWolfDumbness) && ((type == PluginLoader.DamageType.FIRE))) { 
+             return true;
+           }
+           if ((AntiWolfDumbness) && (type == PluginLoader.DamageType.FIRE_TICK)) {
+               return true;
+            }
+           if ((AntiWolfDumbness) && (type == PluginLoader.DamageType.CACTUS)) {
+               return true;
+           }
+           if ((AntiWolfDumbness) && (type == PluginLoader.DamageType.ENTITY)) {
+               return true;
+           }
+           if ((AntiWolfDumbness) && (type == PluginLoader.DamageType.CREEPER_EXPLOSION)) {
+               return true;
+           }
+           if ((AntiWolfDumbness) && (type == PluginLoader.DamageType.LIGHTNING)) {
+               return true;
+           }
+           if ((AntiWolfDumbness) && (type == PluginLoader.DamageType.STARVATION)) {
+               return true;
+             }
+           if ((AntiWolfDumbness) && (type == PluginLoader.DamageType.SUFFOCATION)) {
+              return true;
+             }
+           if ((AntiWolfDumbness) && (type == PluginLoader.DamageType.WATER)) {
+               return true;
+            }
+           if ((AntiWolfDumbness) && (type == PluginLoader.DamageType.POTION)) {
+               return true;
+            }}}}
    }	      
      return false;
    }
@@ -898,14 +968,16 @@ public PluginLoader.HookResult onTame(Player player,Mob wolf,boolean shouldSucce
 }
 public void onPlayerMove(Player player,Location from,Location to){
 	if (teleporttootherworld){
-		if (to.y > level){
+		if (to.y > level && to.dimension == 0){
 		if (world.equalsIgnoreCase("Nether")){
-			player.switchWorlds(-1);
-			player.setY(player.getY()+5);
+			World[] w = etc.getServer().getWorld(player.getWorld().getName());
+			player.switchWorlds(w[1]);
+			player.teleportTo(w[1].getSpawnLocation());
 		}
 		if (world.equalsIgnoreCase("End")){
-			player.switchWorlds(1);
-			player.setY(player.getY()+5);
+			World[] w = etc.getServer().getWorld(player.getWorld().getName());
+			player.switchWorlds(w[2]);
+			player.teleportTo(w[1].getSpawnLocation());
 		}
 		}
 	}
@@ -994,5 +1066,5 @@ public boolean onBlockBreak(Player player,Block block){
 }
 
 }
-//TODO: add multiworld support for all features which needs it <--- cant be done yet with the current methods =/
+//end of class
    

@@ -1,3 +1,22 @@
+/*
+ * WorldTools
+ * Copyright (C) 2012
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -405,24 +424,28 @@ public class PlayerTools extends PluginListener{
 		           }
 		           if (split[0].equalsIgnoreCase("/switchworlds") && Player.canUseCommand("/worldtools") && (Player.canUseCommand("/switchworlds"))){
 		        	   if (split.length <3 || split.length >3){
-		        		   Player.notify("The correct usage is /swichworlds player worldnumber");
+		        		   Player.notify("The correct usage is /swichworlds player worldname");
 		        		   Player.notify("-1 = nether, 0 = normal world , 1 = end");
 		        		   return true;
 		        	   }
 		        	   Player player2 = etc.getServer().matchPlayer(split[1]);
 		        	   if (player2 == null) { Player.notify("This Player does not exist or is currently not logged in!"); return true;}
 		        	   
-		        	   try {Integer.parseInt(split[2]);}catch(NumberFormatException nfe){Player.notify("The correct usage is /swichworlds player worldnumber");
-	        		   Player.notify("-1 = nether, 0 = normal world , 1 = end");return true;}
+		        	   File f = new File(split[2]);
+		        	   if (!f.exists()){
+		        		   Player.notify("This World does not exist!");
+		        		   return true;
+		        	   }
 		        	   
-		        	   int derp = Integer.parseInt(split[2]);
+		        	   if (!etc.getServer().isWorldLoaded(split[2])){
+		        		   Player.notify("This world isnt loaded! please load it before you try to teleport!");
+		        		   return true;
+		        	   }
 		        	   
-		        	   if (derp != 1 && derp != -1 && derp != 0){Player.notify("The correct usage is /swichworlds player worldnumber");
-	        		   Player.notify("-1 = nether, 0 = normal world , 1 = end");return true;}
-		        	   
-		        	   player2.switchWorlds(Integer.parseInt(split[2]));
-		        	   Player.sendMessage("§2"+player2.getName()+" Has swiched to world "+Integer.parseInt(split[2]));
-		        	   player2.sendMessage("§2"+Player.getName()+" Has swiched you to world "+Integer.parseInt(split[2]));
+		        	   World[] w = etc.getServer().getWorld(split[2]);
+		        	   player2.switchWorlds(w[0]);
+		        	   Player.sendMessage("§2"+player2.getName()+" Has swiched to world "+w[0].getName());
+		        	   player2.sendMessage("§2"+Player.getName()+" Has swiched you to world "+w[0].getName());
 		        	   return true;
 		           }
 		           try { if ((split[0].equalsIgnoreCase("/freeze")) && (Player.canUseCommand("/freeze")) && (Player.canUseCommand("/worldtools"))) {
@@ -525,3 +548,4 @@ return false;
  * /swichworlds
  * /getip
  */
+// end of class
