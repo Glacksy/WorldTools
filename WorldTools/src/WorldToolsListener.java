@@ -90,6 +90,9 @@ public class WorldToolsListener extends PluginListener {
 		   private static boolean TpHomeOnDeath;
 		   private static boolean DisablePigZombificatio;
 		   private static boolean AntiWolfDumbness;
+		   private static boolean AntiOcelotDumbness;
+		   private static boolean BlockSnowMelting;
+		   private static boolean AllowPortalEverywhere;
 		   
 		   public static int rad;
 		   public static boolean rlsponge;
@@ -249,6 +252,9 @@ public class WorldToolsListener extends PluginListener {
 		out.write("#block Ice from melting"); out.newLine();
 		out.write("block-Ice-physics=false"); out.newLine();
 		out.write(" "); out.newLine();
+		out.write("#block snow from melting"); out.newLine();
+		out.write("block-snow-physics=false"); out.newLine();
+		out.write(" "); out.newLine();
 		out.write("#block Water from Freezing"); out.newLine();
 		out.write("block-Water-physics=false"); out.newLine();
 		out.write(" "); out.newLine();
@@ -270,8 +276,11 @@ public class WorldToolsListener extends PluginListener {
 		out.write("#Disable Item Dropping"); out.newLine();
 		out.write("disable-item-dropping=false"); out.newLine();
 		out.write(" "); out.newLine();
-		out.write("#Anti Wolf and ocelot dumbness."); out.newLine();
-		out.write("anti-tameable-animal-dumbness=false"); out.newLine();
+		out.write("#Anti Wolf dumbness."); out.newLine();
+		out.write("anti-wolf-dumbness=false"); out.newLine();
+		out.write(" "); out.newLine();
+		out.write("#Anti Ocelot dumbness."); out.newLine();
+		out.write("anti-ocelot-dumbness=false"); out.newLine();
 		out.write(" "); out.newLine();
 		out.write("#Disable weather"); out.newLine();
 		out.write("disable-weather=false"); out.newLine();
@@ -322,8 +331,11 @@ public class WorldToolsListener extends PluginListener {
 		out.write("#Kick a player on death"); out.newLine();
 		out.write("Kick-on-Death=false");out.newLine();
 		out.write("#Kick Message - Reason (use &colorcode for colors)"); out.newLine();
-		out.write("Reason=&cPlease Rejoin");out.newLine();
+		out.write("Reason=&cYou died :/ Please rejoin");
 		out.newLine();
+		out.write("#Allow portal placement everywhere"); out.newLine();
+		out.write("allow-portal-everywhere=false");out.newLine();
+		out.newLine(); 
 		out.close();
 		
 		
@@ -409,7 +421,10 @@ public class WorldToolsListener extends PluginListener {
 	    //   DisallowWaterSpreadBlocks = toBlockIDSet(properties.getProperty("disallowed-water-spread-blocks"));
            
 	       // Other Random Stuff
-		   AntiWolfDumbness = Boolean.parseBoolean(properties.getProperty("anti-tameable-animal-dumbness"));
+		   AllowPortalEverywhere = Boolean.parseBoolean(properties.getProperty("allow-portal-everywhere"));
+		   BlockSnowMelting = Boolean.parseBoolean(properties.getProperty("block-snow-physics"));
+		   AntiOcelotDumbness = Boolean.parseBoolean(properties.getProperty("anti-ocelot-dumbness"));
+		   AntiWolfDumbness = Boolean.parseBoolean(properties.getProperty("anti-wolf-dumbness"));
            DisablePhysicsGravel = Boolean.parseBoolean(properties.getProperty("disable-gravel-physics"));
            DisablePhysicsSand = Boolean.parseBoolean(properties.getProperty("disable-sand-physics"));
            BlockLeafDecay = Boolean.parseBoolean(properties.getProperty("disable-leaf-decay"));
@@ -463,7 +478,7 @@ public class WorldToolsListener extends PluginListener {
 			    if (WorldToolsVoids.isInExplosionRadius(player, block)) {
 			     player.setHealth(player.getHealth() - WorldToolsVoids.calculateDamage(player, block));
 			    if (player.getHealth() < 1) {
-			        player.dropInventory();}}}}  //TODO: force the drop to keep enchantments
+			        player.dropInventory();}}}}
 	   return true;
 	 }
      if ((BlockGhastExplosion) && (block.getStatus() == 3)) {
@@ -499,8 +514,6 @@ public class WorldToolsListener extends PluginListener {
 
    /**
     * Prevent enderman from picking up blocks
-    * TODO: make a list of blocks the enderman can pickup
-    * glack enderman can not pickup all blocks!
     */
    public boolean onEndermanPickup(Enderman entity, Block block)
    {
@@ -631,22 +644,14 @@ public class WorldToolsListener extends PluginListener {
            return true;
         }
      }
-       if (defender.isMob()) {
-         defender.isAnimal();
-         
-         for (LivingEntity le : defender.getWorld().getLivingEntityList()) {
-          OEntity oe = le.getEntity();
-         if (oe instanceof OEntityWolf) {
-          // Check if the wolf is tamed or not. //TODO: finish this 
-          if (((OEntityWolf)oe).u_()) {
+       if (defender.getEntity() instanceof OEntityWolf){
+				Wolf wolf = new Wolf((OEntityWolf) defender.getEntity());
+				wolf.isTame(); {
     	  
            if ((AntiWolfDumbness) && (type == PluginLoader.DamageType.FALL)) {
              return true;
            }
            if ((AntiWolfDumbness) && (type == PluginLoader.DamageType.LAVA)) {
-             return true;
-           }
-           if ((AntiWolfDumbness) && ((type == PluginLoader.DamageType.FIRE))) { 
              return true;
            }
            if ((AntiWolfDumbness) && (type == PluginLoader.DamageType.FIRE_TICK)) {
@@ -655,18 +660,9 @@ public class WorldToolsListener extends PluginListener {
            if ((AntiWolfDumbness) && (type == PluginLoader.DamageType.CACTUS)) {
                return true;
            }
-           if ((AntiWolfDumbness) && (type == PluginLoader.DamageType.ENTITY)) {
-               return true;
-           }
-           if ((AntiWolfDumbness) && (type == PluginLoader.DamageType.CREEPER_EXPLOSION)) {
-               return true;
-           }
            if ((AntiWolfDumbness) && (type == PluginLoader.DamageType.LIGHTNING)) {
                return true;
            }
-           if ((AntiWolfDumbness) && (type == PluginLoader.DamageType.STARVATION)) {
-               return true;
-             }
            if ((AntiWolfDumbness) && (type == PluginLoader.DamageType.SUFFOCATION)) {
               return true;
              }
@@ -675,8 +671,39 @@ public class WorldToolsListener extends PluginListener {
             }
            if ((AntiWolfDumbness) && (type == PluginLoader.DamageType.POTION)) {
                return true;
-            }}}}
-   }	      
+            }
+           }
+       }
+			if (defender.getEntity() instanceof OEntityOcelot){
+					Ocelot ocelot = new Ocelot((OEntityOcelot) defender.getEntity());
+					ocelot.isTame(); {
+	    	  
+	           if ((AntiOcelotDumbness) && (type == PluginLoader.DamageType.FALL)) {
+	             return true;
+	           }
+	           if ((AntiOcelotDumbness) && (type == PluginLoader.DamageType.LAVA)) {
+	             return true;
+	           }
+	           if ((AntiOcelotDumbness) && (type == PluginLoader.DamageType.FIRE_TICK)) {
+	               return true;
+	            }
+	           if ((AntiOcelotDumbness) && (type == PluginLoader.DamageType.CACTUS)) {
+	               return true;
+	           }
+	           if ((AntiOcelotDumbness) && (type == PluginLoader.DamageType.LIGHTNING)) {
+	               return true;
+	           }
+	           if ((AntiOcelotDumbness) && (type == PluginLoader.DamageType.SUFFOCATION)) {
+	              return true;
+	             }
+	           if ((AntiOcelotDumbness) && (type == PluginLoader.DamageType.WATER)) {
+	               return true;
+	            }
+	           if ((AntiOcelotDumbness) && (type == PluginLoader.DamageType.POTION)) {
+	               return true;
+	            }
+	           }
+          }	      
      return false;
    }
    
@@ -692,6 +719,9 @@ public class WorldToolsListener extends PluginListener {
      if ((DisablePhysicsSand) && (block.getType() == 12)) {
        return true;
      }
+     if ((AllowPortalEverywhere) && (block.getType() == 90)) {
+         return true;
+       }
   return false;
    }
    
@@ -750,6 +780,9 @@ public class WorldToolsListener extends PluginListener {
 	    	return true;
 	    }
 	    if (BlockLavaObsidian && block.getType() == 11){
+	    	return true;
+	    }
+	    if (BlockSnowMelting && block.getType() == 78){
 	    	return true;
 	    }
 	  return false; 
