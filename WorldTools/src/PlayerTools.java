@@ -37,7 +37,8 @@ public class PlayerTools extends PluginListener{
 	private static Location exactSpawn = null;
 	
 	public boolean onCommand(Player Player, String[] split) {
-			   if ((split[0].equalsIgnoreCase("/drain")) && (Player.canUseCommand("/worldtools"))) {
+			   if (split[0].equalsIgnoreCase("/drain")){
+				   if ((Player.canUseCommand("/worldtools"))||Player.canUseCommand("/drain")){
 			       int dist = 0;
 			       if (split.length == 2) try { dist = Integer.parseInt(split[1]); } catch (Throwable localThrowable) {
 			         } if (dist == 0) {
@@ -69,9 +70,12 @@ public class PlayerTools extends PluginListener{
 			         Player.sendMessage("§aLava & Water Successfully Drained!");
 			         return true;
 			                   }
+			   Player.notify("You cant use this command");return true;
+	}
 
 
-		     if ((split[0].equalsIgnoreCase("/drainlava")) && (Player.canUseCommand("/worldtools")) && (Player.canUseCommand("/drainlava"))) {
+		     if (split[0].equalsIgnoreCase("/drainlava")){
+		    	 if ((Player.canUseCommand("/worldtools")) && (Player.canUseCommand("/drainlava"))){
 		       int dist = 0;
 		       if (split.length == 2) try { dist = Integer.parseInt(split[1]); } catch (Throwable localThrowable1) {
 		         } if (dist == 0) { Player.sendMessage("§cWrong syntax! Usage: /drainlava <radius>"); return true; }
@@ -95,8 +99,11 @@ public class PlayerTools extends PluginListener{
 		       Player.sendMessage("§aLava Successfully Removed!");
 		       return true;
 		     }
+		     Player.notify("You cant use this command");return true;
+	}
 
-		     if ((split[0].equalsIgnoreCase("/drainwater")) && (Player.canUseCommand("/worldtools")) && (Player.canUseCommand("/drainwater"))) {
+		     if (split[0].equalsIgnoreCase("/drainwater")) {
+		    	 if ((Player.canUseCommand("/worldtools")) && (Player.canUseCommand("/drainwater"))){
 		       int dist = 0;
 		       if (split.length == 2) try { dist = Integer.parseInt(split[1]); } catch (Throwable localThrowable2) {
 		         } if (dist == 0) { Player.sendMessage("§cWrong syntax! Usage: /drainwater <radius>"); return true; }
@@ -120,8 +127,11 @@ public class PlayerTools extends PluginListener{
 		       Player.sendMessage("§aWater Successfully Removed!");
 		       return true;
 		     }
+		    	 Player.notify("You cant use this command");return true;
+		     }
 
-		     if ((split[0].equalsIgnoreCase("/ext")) && (Player.canUseCommand("/worldtools")) && (Player.canUseCommand("/ext"))) {
+		     if (split[0].equalsIgnoreCase("/ext")) {
+		    	 if ((Player.canUseCommand("/worldtools")) && (Player.canUseCommand("/ext"))){
 		       int dist = 0;
 		       if (split.length == 2) try { dist = Integer.parseInt(split[1]); } catch (Throwable localThrowable3) {
 		         } if (dist == 0) { Player.sendMessage("§cWrong syntax! Usage: /ext <radius>"); return true; }
@@ -144,8 +154,11 @@ public class PlayerTools extends PluginListener{
 		       Player.sendMessage("§aFire Successfully Extinguished");
 		       return true;
 		     }
+		     Player.notify("You cant use this command");return true;
+	}
 
-		     if ((split[0].equalsIgnoreCase("/melt")) && (Player.canUseCommand("/worldtools")) && (Player.canUseCommand("/melt"))) {
+		     if (split[0].equalsIgnoreCase("/melt")) {
+		    	 if ((Player.canUseCommand("/worldtools")) || (Player.canUseCommand("/melt"))){
 		       int dist = 0;
 		       if (split.length == 2) try { dist = Integer.parseInt(split[1]); } catch (Throwable localThrowable4) {
 		         } if (dist == 0) { Player.sendMessage("§cWrong syntax! Usage: /melt <radius>"); return true; }
@@ -169,8 +182,11 @@ public class PlayerTools extends PluginListener{
 		       Player.sendMessage("§aThe Snow & Ice has been successfully melted!");
 		       return true;
 		     }
+		    	 Player.notify("You cant use this command");return true;
+		     }
 
-		     if ((split[0].equalsIgnoreCase("/snow")) && (Player.canUseCommand("/worldtools")) && (Player.canUseCommand("/snow"))) {
+		     if (split[0].equalsIgnoreCase("/snow")) {
+		    	 if ((Player.canUseCommand("/worldtools")) || (Player.canUseCommand("/snow"))){
 		       int dist = 0;
 		       if (split.length == 2) try { dist = Integer.parseInt(split[1]); } catch (Throwable localThrowable5) {
 		         } if (dist == 0) { Player.sendMessage("§cWrong syntax! Usage: /snow <radius>"); return true; }
@@ -195,6 +211,8 @@ public class PlayerTools extends PluginListener{
 		       Player.sendMessage("§a Snow placed & water frozen!");
 		       return true;
 		     }
+		     Player.notify("You cant use this command");return true;
+	}
 
 		     if ((split[0].equalsIgnoreCase("/waterfix")) && (Player.canUseCommand("/worldtools")) && (Player.canUseCommand("/waterfix"))) {
 		       int dist = 0;
@@ -222,7 +240,8 @@ public class PlayerTools extends PluginListener{
 		       return true;
 		     }
 
-		     if ((split[0].equalsIgnoreCase("/lavafix")) && (Player.canUseCommand("/worldtool")) && (Player.canUseCommand("/lavafix"))) {
+		     if (split[0].equalsIgnoreCase("/lavafix")) {
+		    	 if ((Player.canUseCommand("/worldtool")) || (Player.canUseCommand("/lavafix"))){
 		       int dist = 0;
 		       if (split.length == 2) try { dist = Integer.parseInt(split[1]); } catch (Throwable localThrowable7) {
 		         } if (dist == 0) { Player.sendMessage("§cWrong syntax! Usage: /lavafix <radius>"); return true; }
@@ -241,14 +260,17 @@ public class PlayerTools extends PluginListener{
 		                    if (Player.getWorld().getBlockAt(x, y, z).getType() == 10){Player.getWorld().setBlockAt(95, x, y, z);}
 		                    if (Player.getWorld().getBlockAt(x, y, z).getType() == 11){Player.getWorld().setBlockAt(95, x, y, z);}
 		                    if (Player.getWorld().getBlockAt(x, y, z).getType() == 95){Player.getWorld().setBlockAt(9, x, y, z);}
-		                         }
+		                         }//TODO
 		                       }
 		                     }
 		       Player.sendMessage("§a Lava Successfully Fixed!");
 		       return true;
 		     }
+		    	 Player.notify("You cant use this command");return true;
+		     }
 		     
-		     if ((split[0].equalsIgnoreCase("/lighter")) && (Player.canUseCommand("/lighter") || (Player.canUseCommand("/worldtools")))) {
+		     if (split[0].equalsIgnoreCase("/lighter")){ 
+		    	 if(Player.canUseCommand("/lighter") || (Player.canUseCommand("/worldtools"))) {
 		       int dist = 0;
 		       if (split.length == 0) try { dist = Integer.parseInt(split[0]); } catch (Throwable localThrowable8) {
 		         } if (dist == 0) { Player.sendMessage("§cWrong syntax! Usage: /lighter"); return true;
@@ -257,8 +279,11 @@ public class PlayerTools extends PluginListener{
 		       Player.sendMessage("§a No smoke without §6fire!"); 
 		       return true;
 		     }
+		    	 Player.notify("You cant use this command");return true;
+		     }
 		     
-		     if (split[0].equalsIgnoreCase("/cmob") && (Player.canUseCommand("/cmob") || (Player.canUseCommand("/worldtools")))) {
+		     if (split[0].equalsIgnoreCase("/cmob")){
+		    	 if(Player.canUseCommand("/cmob") || (Player.canUseCommand("/worldtools"))) {
 		         try {
 		           int r = Integer.valueOf(split[1]).intValue();
 		           WorldToolsVoids.cMob(r);
@@ -269,11 +294,14 @@ public class PlayerTools extends PluginListener{
 		           return true;
 		         }
 		       }
+		    	 Player.notify("You cant use this command");return true;
+		     }
 		     
 		     /**
 		      * killmobs
 		      */
-		     if (split[0].equalsIgnoreCase("/killmobs") && (Player.canUseCommand("/killmobs") || (Player.canUseCommand("/worldtools")))) {
+		     if (split[0].equalsIgnoreCase("/killmobs")){
+		    		 if (Player.canUseCommand("/killmobs") || (Player.canUseCommand("/worldtools"))) {
 		         int mobcount = Player.getWorld().getMobList().size();
 		         for (int i = 0; i < mobcount; i++) {
 		           ((Mob)Player.getWorld().getMobList().get(i)).setHealth(0);
@@ -281,12 +309,15 @@ public class PlayerTools extends PluginListener{
 		         Player.sendMessage("§aYou Killed " + mobcount + " Mobs.");
 		         return true;
 		       }
+		    		 Player.notify("You cant use this command");return true;
+		     }
 		     
 		     /**
 		      * replace feature
 		      * 
 		      */ 
-		     if (split[0].equalsIgnoreCase("/wreplace") && (Player.canUseCommand("/wreplace") || (Player.canUseCommand("/worldtools")))) {
+		     if (split[0].equalsIgnoreCase("/wreplace")){
+		    	 if ((Player.canUseCommand("/wreplace") || (Player.canUseCommand("/worldtools")))){
 		         if (split.length <4 || split.length >4){
 		                 Player.notify("The correct usage is '/wreplace fromid toid radius'");
 		                 return true;
@@ -302,28 +333,32 @@ public class PlayerTools extends PluginListener{
 		         
 		         Player.sendMessage("§aBlocks Replaced.");
 		         return true;
+		    	 }
+		    	 Player.notify("You cant use this command");return true;
 		 }
 		     
 		     if ((split[0].equalsIgnoreCase("/worldtools")) && (Player.canUseCommand("/worldtools"))) {
+		    	 if (split.length >1 || split.length <1){Player.notify("The correct usage is '/worldtools'");return true;}
 		           Player.sendMessage("§6 WorldTools " + WorldTools.version + " by Glacksy §8&§6 Spenk");
-		      
 		           return true;
 		         }
 		     
-		     if ((split[0].equalsIgnoreCase("/suicide")) && (Player.canUseCommand("/suicide") && (Player.canUseCommand("/worldtool")))) 
-		     {
+		     if ((split[0].equalsIgnoreCase("/suicide"))){
+		    	 if ((Player.canUseCommand("/suicide") || (Player.canUseCommand("/worldtool")))){
+		    		 if (split.length >1 || split.length <1){Player.notify("The correct usage is '/suicide'");return true;}
 		           Player.setHealth(0);
 		           Player.sendMessage("§cYou committed suicide");
 		           return true;
+		    	 }
+		    	 Player.notify("You cant use this command");return true;
 		     }
 		     
 		     /**
 		      * kill code
 		      * @author spenk
 		      */
-		           if ((split[0].equalsIgnoreCase("/kill")) && (Player.canUseCommand("/worldtools")) && (Player.canUseCommand("/kill")))           
-		           {    
-		        	   if (Player.canUseCommand("/kill")){
+		           if ((split[0].equalsIgnoreCase("/kill"))){    
+		        	   if ((Player.canUseCommand("/worldtools")) || (Player.canUseCommand("/kill"))){
 		        		   if (split.length <2 || split.length >2){
 		        		   Player.notify("The correct usage is /kill <player>");
 		        		   return true;
@@ -339,15 +374,13 @@ public class PlayerTools extends PluginListener{
 		        		   Player.sendMessage("§2Player sucsessfully killed!");
 		        		   return true;
 		        	   }
-		        	   }else{
+		        	   }
 		        		   Player.sendMessage("§cYou cant use this command");
 		        		   return true;
 		        	   }
-		           }
 		           
-		           if ((split[0].equalsIgnoreCase("/heal")) && (Player.canUseCommand("/worldtools")) && (Player.canUseCommand("/heal")))           
-		           {            
-		    		   if (Player.canUseCommand("/heal")){
+		           if ((split[0].equalsIgnoreCase("/heal"))){           
+		        	   if ((Player.canUseCommand("/worldtools")) || (Player.canUseCommand("/heal"))){
 		    			   if (split.length <2 || split.length >2){
 		            		   Player.sendMessage("§cThe correct usage is /heal <player>");
 		            		   return true; 
@@ -363,30 +396,55 @@ public class PlayerTools extends PluginListener{
 		        		   Player.sendMessage("§2Player sucsessfully healed!");
 		        		   return true;
 		    			   }
-		        	   }else{
-		        		   Player.sendMessage("§cYou cant use this command");
-		        		   return true;
-		           }
+		        	   }
+		        		   Player.notify("You cant use this command");return true;
 		           }
 		           
-		           if (split[0].equalsIgnoreCase("/save-inv") && Player.canUseCommand("/worldtools") && (Player.canUseCommand("/save-inv"))){
+		           if (split[0].equalsIgnoreCase("/save-inv")){
+		        	   if (Player.canUseCommand("/worldtools") || (Player.canUseCommand("/save-inv"))){
+		        		   if (split.length <1 || split.length >1){Player.notify("The correct usage is '/save-inv'");return true;}
 		        	   etc.getServer().saveInventories();
 		        	   Player.sendMessage("§aInventories saved");
 		               return true;
 		           }
+		        	   Player.notify("You cant use this command");return true;
+		           }
 		           
-		           if ((split[0].equalsIgnoreCase("/godmode")) && (Player.canUseCommand("/godmode")) && (Player.canUseCommand("/worldtools"))) {
-		        	      if (!god.contains(Player.getName())) {
-		        	        god.add(Player.getName());
-		        	        Player.sendMessage("§3Godmode have been disabled");
+		           if ((split[0].equalsIgnoreCase("/godmode"))) {
+		        	   if ((Player.canUseCommand("/godmode")) && (Player.canUseCommand("/worldtools"))){
+		        		   if (split.length > 2){Player.notify("The correct usage is /godmode (player)");return true;
+		        	   }
+		        		   if (split.length == 1){
+				        	      if (!god.contains(Player.getName())) {
+					        	        god.add(Player.getName());
+					        	        Player.sendMessage("§3Godmode have been enabled");
+					        	        return true;
+					        	      }else{
+					        	      god.remove(Player.getName());
+					        	      Player.sendMessage("§3Godmode have been disabled");
+					        	      return true;
+					        	      }
+		        		   }
+		        		   if (split.length == 2){
+		        			   Player player2 = etc.getServer().matchPlayer(split[1]);
+		        			   if (player2 == null){Player.notify("This player does not exist or is not logged in!");return true;}
+		        	      if (!god.contains(player2.getName())) {
+		        	        god.add(player2.getName());
+		        	        Player.sendMessage("§3Godmode have been enabled");
+		        	        player2.sendMessage("§3Godmode have been enabled");
 		        	        return true;
 		        	      }else{
-		        	      god.remove(Player.getName());
-		        	      Player.sendMessage("§3Godmode have been enabled");
+		        	      god.remove(player2.getName());
+		        	      Player.sendMessage("§3Godmode have been disabled");
+		        	      player2.sendMessage("§3Godmode have been disabled");
 		        	      return true;
 		        	      }
 		        	    }
-		           if (split[0].equalsIgnoreCase("/feed") && Player.canUseCommand("/worldtools") && (Player.canUseCommand("/feed"))){
+		        	   Player.notify("You cant use this command");return true;
+		           }
+		           }
+		           if (split[0].equalsIgnoreCase("/feed")){
+		        	   if (Player.canUseCommand("/worldtools") && (Player.canUseCommand("/feed"))){
 		        	   if (split.length <2 || split.length >2){
 		        		   Player.notify("The correct usage is /feed player");
 		        		   return true;
@@ -398,7 +456,10 @@ public class PlayerTools extends PluginListener{
 		        	   player2.sendMessage("§2"+Player.getName()+" Restored your foodlevel!");
 		        	   return true;
 		           }
-		           if (split[0].equalsIgnoreCase("/getip") && Player.canUseCommand("/worldtools") && (Player.canUseCommand("/getip"))){
+		        	   Player.notify("You cant use this command");return true;
+		           }
+		           if (split[0].equalsIgnoreCase("/getip")){
+		        	   if (Player.canUseCommand("/worldtools") || (Player.canUseCommand("/getip"))){
 		        	   if (split.length <2 || split.length >2){
 		        		   Player.notify("The correct usage is /getip <player>");
 		        		   return true;
@@ -408,7 +469,8 @@ public class PlayerTools extends PluginListener{
 		        	   Player.sendMessage("§4"+player2.getName()+"§2 His IP is §4"+player2.getIP());
 		        	   return true;
 		           }
-		           if (split[0].equalsIgnoreCase("/forcewarp") && Player.canUseCommand("/worldtools") && (Player.canUseCommand("/forcewarp"))){
+		           if (split[0].equalsIgnoreCase("/forcewarp")){
+		        	   if (Player.canUseCommand("/worldtools") || (Player.canUseCommand("/forcewarp"))){
 		        	   if (split.length <3 || split.length >3){
 		        		   Player.notify("The correct usage is /forcewarp player warpname");
 		        		   return true;
@@ -422,7 +484,11 @@ public class PlayerTools extends PluginListener{
 		        	   player2.sendMessage("§2"+Player.getName()+" warped you!");
 		        	   return true;
 		           }
-		           if (split[0].equalsIgnoreCase("/switchworlds") && Player.canUseCommand("/worldtools") && (Player.canUseCommand("/switchworlds"))){
+		           Player.notify("You cant use this command");return true;
+		           }
+		           
+		           if (split[0].equalsIgnoreCase("/switchworlds")){
+		        	   if (Player.canUseCommand("/worldtools") || (Player.canUseCommand("/switchworlds"))){
 		        	   if (split.length <3 || split.length >3){
 		        		   Player.notify("The correct usage is /swichworlds player worldname");
 		        		   Player.notify("-1 = nether, 0 = normal world , 1 = end");
@@ -447,13 +513,19 @@ public class PlayerTools extends PluginListener{
 		        	   Player.sendMessage("§2"+player2.getName()+" Has swiched to world "+w[0].getName());
 		        	   player2.sendMessage("§2"+Player.getName()+" Has swiched you to world "+w[0].getName());
 		        	   return true;
+		        	   }
+		        	   Player.notify("You cant use this command");return true;
 		           }
-		           try { if ((split[0].equalsIgnoreCase("/freeze")) && (Player.canUseCommand("/freeze")) && (Player.canUseCommand("/worldtools"))) {
+		           
+		             if (split[0].equalsIgnoreCase("/freeze")) {
+		        	   if (Player.canUseCommand("/freeze") || (Player.canUseCommand("/worldtools"))){
+		        		   if (split.length > 2 || split.length < 2){Player.notify("The correct usage is '/freeze <player>'");return true;}
 		               Player offender = etc.getServer().matchPlayer(split[1]);
 		               if (offender == null){
 		            	   Player.notify("This Player does not exist or is currently not logged in!");
 		            	   return true;
 		               }
+		               
 		               if ((!frozen.contains(offender.getName())) && (split[1] != null)) {
 		                 offender.sendMessage("§2You have been frozen by §3" + Player.getName() + "§e!");
 		                 Player.sendMessage("§2You froze §3" + offender.getName() + "§2!");
@@ -465,22 +537,40 @@ public class PlayerTools extends PluginListener{
 		               frozen.remove(offender.getName());
 		               return true;
 		             }
-		           } catch (ArrayIndexOutOfBoundsException e) {
-		             Player.sendMessage("§cWrong syntax! Usage: /freeze <Player>");
-		             return true;
-		           } catch (NullPointerException e) {
-		             Player.sendMessage("§cPlayer not found!");
-		             return true;
+		        	   Player.notify("You cant use this command");return true;
 		           }
 		           
-		           if ((split[0].equalsIgnoreCase("/setspawn")) && (Player.canUseCommand("/setspawn"))) {
+		           if (split[0].equalsIgnoreCase("/setspawn")){
+		        	   if (Player.canUseCommand("/setspawn")||Player.canUseCommand("/worldtools")){
+		        		   if (split.length > 1 || split.length < 1){Player.notify("The correct usage is '/setspawn'");return true;}
 		               exactSpawn = new Location(Player.getX(), Player.getY(), Player.getZ(), Player.getRotation(), Player.getPitch());
 		               PropertiesFile props = new PropertiesFile("worldtools.properties");
 		               props.setString("exact-spawn", exactSpawn.x + "," + exactSpawn.y + "," + exactSpawn.z + "," + exactSpawn.rotX + "," + exactSpawn.rotY);
-		               return false;
-		             }if ((split[0].equalsIgnoreCase("/spawn")) && (Player.canUseCommand("/spawn")) && (exactSpawn != null)) {
+		               return true;
+		        	   }
+		        	   Player.notify("You cant use this command");return true;
+		             }
+		           
+		           if (split[0].equalsIgnoreCase("/spawn") && exactSpawn != null) {
+		        	   if ((Player.canUseCommand("/spawn")) || Player.canUseCommand("/worldtools")){
 		               Player.teleportTo(exactSpawn);
 		               return true;
+		             }
+		        	   Player.notify("You cant use this command");return true;
+		           }
+		           
+		             if (split[0].equalsIgnoreCase("/locate")){
+		            	 if (Player.canUseCommand("/locate")|| Player.canUseCommand("/worldtools")){
+		            		 if (split.length > 2 || split.length < 2){
+		            			 Player.notify("The correct usage is '/locate <player>'");return true;
+		            		 }
+		            		 Player player2 = etc.getServer().matchPlayer(split[1]);
+		            		 if (player2 == null){Player.notify("§cTis player doesnt exist or is currently not logged in!");return true;}
+		            		 Player.sendMessage(player2.getName()+"Is located in World:"+player2.getWorld().getName()+" in Dimension:"+player2.getLocation().dimension +" at location X:"+player2.getX() +" Y:"+player2.getY() +" Z:"+player2.getZ());
+		            		 return true;
+		            	 }
+		            	 Player.notify("You cant use this command");return true;
+		             }
 		             }
 		           
 		     return false;
@@ -499,7 +589,7 @@ public void onLogin(Player player) {
 public boolean onDamage(PluginLoader.DamageType type, BaseEntity attacker, BaseEntity defender, int amount)
 {
 if ((defender.isPlayer()) && 
-	      (!god.contains(defender.getPlayer().getName()))) {
+	      (god.contains(defender.getPlayer().getName()))) {
 	      Player localplayer = defender.getPlayer();
 
 	      if ((localplayer.canUseCommand("/godmode")) && 
