@@ -75,7 +75,7 @@ public class PlayerTools extends PluginListener{
 
 
 		     if (split[0].equalsIgnoreCase("/drainlava")){
-		    	 if ((Player.canUseCommand("/worldtools")) && (Player.canUseCommand("/drainlava"))){
+		    	 if ((Player.canUseCommand("/worldtools")) || (Player.canUseCommand("/drainlava"))){
 		       int dist = 0;
 		       if (split.length == 2) try { dist = Integer.parseInt(split[1]); } catch (Throwable localThrowable1) {
 		         } if (dist == 0) { Player.sendMessage("§cWrong syntax! Usage: /drainlava <radius>"); return true; }
@@ -103,7 +103,7 @@ public class PlayerTools extends PluginListener{
 	}
 
 		     if (split[0].equalsIgnoreCase("/drainwater")) {
-		    	 if ((Player.canUseCommand("/worldtools")) && (Player.canUseCommand("/drainwater"))){
+		    	 if ((Player.canUseCommand("/worldtools")) || (Player.canUseCommand("/drainwater"))){
 		       int dist = 0;
 		       if (split.length == 2) try { dist = Integer.parseInt(split[1]); } catch (Throwable localThrowable2) {
 		         } if (dist == 0) { Player.sendMessage("§cWrong syntax! Usage: /drainwater <radius>"); return true; }
@@ -131,7 +131,7 @@ public class PlayerTools extends PluginListener{
 		     }
 
 		     if (split[0].equalsIgnoreCase("/ext")) {
-		    	 if ((Player.canUseCommand("/worldtools")) && (Player.canUseCommand("/ext"))){
+		    	 if ((Player.canUseCommand("/worldtools")) || (Player.canUseCommand("/ext"))){
 		       int dist = 0;
 		       if (split.length == 2) try { dist = Integer.parseInt(split[1]); } catch (Throwable localThrowable3) {
 		         } if (dist == 0) { Player.sendMessage("§cWrong syntax! Usage: /ext <radius>"); return true; }
@@ -214,7 +214,8 @@ public class PlayerTools extends PluginListener{
 		     Player.notify("You cant use this command");return true;
 	}
 
-		     if ((split[0].equalsIgnoreCase("/waterfix")) && (Player.canUseCommand("/worldtools")) && (Player.canUseCommand("/waterfix"))) {
+		     if (split[0].equalsIgnoreCase("/waterfix")) {
+		    	 if ((Player.canUseCommand("/worldtools")) && (Player.canUseCommand("/waterfix"))){
 		       int dist = 0;
 		       if (split.length == 2) try { dist = Integer.parseInt(split[1]); } catch (Throwable localThrowable6) {
 		         } if (dist == 0) { Player.sendMessage("§cWrong syntax! Usage: /waterfix <radius>"); return true; }
@@ -238,6 +239,8 @@ public class PlayerTools extends PluginListener{
 		                     }
 		       Player.sendMessage("§a Water Successfully Fixed!");
 		       return true;
+		     }
+		    	 Player.notify("You cant use this command");return true;
 		     }
 
 		     if (split[0].equalsIgnoreCase("/lavafix")) {
@@ -411,7 +414,7 @@ public class PlayerTools extends PluginListener{
 		           }
 		           
 		           if ((split[0].equalsIgnoreCase("/godmode"))) {
-		        	   if ((Player.canUseCommand("/godmode")) && (Player.canUseCommand("/worldtools"))){
+		        	   if ((Player.canUseCommand("/godmode")) || (Player.canUseCommand("/worldtools"))){
 		        		   if (split.length > 2){Player.notify("The correct usage is /godmode (player)");return true;
 		        	   }
 		        		   if (split.length == 1){
@@ -444,7 +447,7 @@ public class PlayerTools extends PluginListener{
 		           }
 		           }
 		           if (split[0].equalsIgnoreCase("/feed")){
-		        	   if (Player.canUseCommand("/worldtools") && (Player.canUseCommand("/feed"))){
+		        	   if (Player.canUseCommand("/worldtools") || (Player.canUseCommand("/feed"))){
 		        	   if (split.length <2 || split.length >2){
 		        		   Player.notify("The correct usage is /feed player");
 		        		   return true;
